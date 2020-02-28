@@ -169,26 +169,26 @@ class BrushTime {
 class _BarGraphState extends State<BarGraph> {
   List<BrushTime> getColumnData(){
     List<BrushTime> data1 =<BrushTime>[
-      BrushTime("Mo",120),
-      BrushTime("Tu",90),
-      BrushTime("We",140),
-      BrushTime("Th",75),
-      BrushTime("Fr",100),
-      BrushTime("Sa",110),
-      BrushTime("So",130),
+      BrushTime("Mo",30),
+      BrushTime("Tu",30),
+      BrushTime("We",30),
+      BrushTime("Th",30),
+      BrushTime("Fr",30),
+      BrushTime("Sa",30),
+      BrushTime("So",30),
 
     ];
     return data1;
   }
   List<BrushTime> getColumnData1(){
     List<BrushTime> data1 =<BrushTime>[
-      BrushTime("Mo",120),
-      BrushTime("Tu",120),
-      BrushTime("We",120),
-      BrushTime("Th",120),
-      BrushTime("Fr",120),
-      BrushTime("Sa",120),
-      BrushTime("So",120),
+      BrushTime("Mo",30),
+      BrushTime("Tu",30),
+      BrushTime("We",30),
+      BrushTime("Th",30),
+      BrushTime("Fr",30),
+      BrushTime("Sa",30),
+      BrushTime("So",30),
 
     ];
     return data1;
