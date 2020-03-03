@@ -230,6 +230,7 @@ class IconGraph extends StatelessWidget
   Widget build(BuildContext context)
   {
     return(Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: graphBuilder(),
     ));
   }
