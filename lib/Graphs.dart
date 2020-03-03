@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class GraphContainer extends StatelessWidget
 {
@@ -49,7 +49,7 @@ class GraphContainer extends StatelessWidget
 
               //Text('min',style: TextStyle(color: Colors.grey),),
 
-              (graphType==1?BarGraph(data: data,):IconGraph(data: data,)),
+              (graphType==1?BarGraph():IconGraph(data: data,)),
 
               Row(
                 children: <Widget>[
@@ -152,91 +152,216 @@ class IconGraph extends StatelessWidget
   }
 }
 
-class BarGraph extends StatefulWidget {
-  final List<List<int>> data;
-  BarGraph({this.data,Key key, this.title}) : super(key: key);
-  final String title;
+//class BarGraph extends StatefulWidget {
+//  final List<List<int>> data;
+//  BarGraph({this.data,Key key, this.title}) : super(key: key);
+//  final String title;
+//
+//  @override
+//  _BarGraphState createState() => _BarGraphState();
+//}
+//class BrushTime {
+//  String x;
+//  double y;
+//  BrushTime(this.x,this.y); //constructor
+//}
+//
+//class _BarGraphState extends State<BarGraph> {
+//  List<BrushTime> getColumnData(){
+//    List<BrushTime> data1 =<BrushTime>[
+//      BrushTime("Mo",30),
+//      BrushTime("Tu",30),
+//      BrushTime("We",30),
+//      BrushTime("Th",30),
+//      BrushTime("Fr",30),
+//      BrushTime("Sa",30),
+//      BrushTime("So",30),
+//
+//    ];
+//    return data1;
+//  }
+//  List<BrushTime> getColumnData1(){
+//    List<BrushTime> data1 =<BrushTime>[
+//      BrushTime("Mo",30),
+//      BrushTime("Tu",30),
+//      BrushTime("We",30),
+//      BrushTime("Th",30),
+//      BrushTime("Fr",30),
+//      BrushTime("Sa",30),
+//      BrushTime("So",30),
+//
+//    ];
+//    return data1;
+//  }
+//  @override
+//  Widget build(BuildContext context) {
+//    return(
+//        Column(
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          children: <Widget>[
+//            Container(
+//              child: SfCartesianChart(
+//                primaryXAxis: CategoryAxis(
+//                    title: AxisTitle()
+//                ), //String
+//                primaryYAxis: NumericAxis(
+//                    title: AxisTitle()
+//                ),  //double
+//
+//                series: <ChartSeries>[
+//                  ColumnSeries<BrushTime,String>(
+//                    name: "Brush Time",
+//                    dataSource: getColumnData(),
+//                    xValueMapper: (BrushTime brush,_)=> brush.x, //mapping the Values
+//                    yValueMapper: (BrushTime brush,_)=> brush.y,
+//                    width: 1,
+//                    spacing: 0.5,
+//                    borderRadius: BorderRadius.all(Radius.circular(15)),
+//                    dataLabelSettings: DataLabelSettings(
+//                        isVisible: true),
+//
+//                  ),
+//                  ColumnSeries<BrushTime,String>(
+//                    name: "120 Seconds",
+//                    dataSource: getColumnData1(),
+//                    xValueMapper: (BrushTime brush,_)=> brush.x, //mapping the Values
+//                    yValueMapper: (BrushTime brush,_)=> brush.y,
+//                    width: 1,
+//                    spacing: 0.5,
+//                    borderRadius: BorderRadius.all(Radius.circular(15)),
+//                    dataLabelSettings: DataLabelSettings(
+//                        isVisible: true),
+//                  ),
+//                ],
+//              ),
+//            )
+//          ],
+//        )
+//    );
+//  }
+//}
 
-  @override
-  _BarGraphState createState() => _BarGraphState();
-}
-class BrushTime {
-  String x;
-  double y;
-  BrushTime(this.x,this.y); //constructor
-}
-
-class _BarGraphState extends State<BarGraph> {
-  List<BrushTime> getColumnData(){
-    List<BrushTime> data1 =<BrushTime>[
-      BrushTime("Mo",30),
-      BrushTime("Tu",30),
-      BrushTime("We",30),
-      BrushTime("Th",30),
-      BrushTime("Fr",30),
-      BrushTime("Sa",30),
-      BrushTime("So",30),
-
-    ];
-    return data1;
-  }
-  List<BrushTime> getColumnData1(){
-    List<BrushTime> data1 =<BrushTime>[
-      BrushTime("Mo",30),
-      BrushTime("Tu",30),
-      BrushTime("We",30),
-      BrushTime("Th",30),
-      BrushTime("Fr",30),
-      BrushTime("Sa",30),
-      BrushTime("So",30),
-
-    ];
-    return data1;
-  }
+class BarGraph extends StatelessWidget
+{
   @override
   Widget build(BuildContext context) {
-    return(
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Expanded(
+            child:
             Container(
-              child: SfCartesianChart(
-                primaryXAxis: CategoryAxis(
-                    title: AxisTitle()
-                ), //String
-                primaryYAxis: NumericAxis(
-                    title: AxisTitle()
-                ),  //double
-
-                series: <ChartSeries>[
-                  ColumnSeries<BrushTime,String>(
-                    name: "Brush Time",
-                    dataSource: getColumnData(),
-                    xValueMapper: (BrushTime brush,_)=> brush.x, //mapping the Values
-                    yValueMapper: (BrushTime brush,_)=> brush.y,
-                    width: 1,
-                    spacing: 0.5,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    dataLabelSettings: DataLabelSettings(
-                        isVisible: true),
-
-                  ),
-                  ColumnSeries<BrushTime,String>(
-                    name: "120 Seconds",
-                    dataSource: getColumnData1(),
-                    xValueMapper: (BrushTime brush,_)=> brush.x, //mapping the Values
-                    yValueMapper: (BrushTime brush,_)=> brush.y,
-                    width: 1,
-                    spacing: 0.5,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    dataLabelSettings: DataLabelSettings(
-                        isVisible: true),
-                  ),
-                ],
-              ),
+              height: 300,
+              child: GroupedBarChart.withSampleData(),
             )
-          ],
         )
+
+      ],
     );
+  }
+}
+
+
+class BrushTime{
+  final String day;
+  final int minute;
+  BrushTime(this.day,this.minute);
+}
+
+class GroupedBarChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+
+  GroupedBarChart(this.seriesList, {this.animate});
+
+  factory GroupedBarChart.withSampleData() {
+    return new GroupedBarChart(
+      _createSampleData(),
+      animate: true,
+    );
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return( charts.BarChart(
+      seriesList,
+      animate: animate,
+      barGroupingType: charts.BarGroupingType.grouped,
+      defaultRenderer: new charts.BarRendererConfig(
+
+          cornerStrategy: const charts.ConstCornerStrategy(30)),
+    ));
+  }
+
+  /// Create series list with multiple series
+  static List<charts.Series<BrushTime, String>> _createSampleData() {
+
+
+    final session1 = [
+
+      new BrushTime('Mo', 240),
+      new BrushTime('Tu', 225),
+      new BrushTime('We', 180),
+      new BrushTime('Th', 165),
+      new BrushTime('Fr', 195),
+      new BrushTime('Sa', 95),
+      new BrushTime('So', 100),
+
+    ];
+
+    final session2 = [
+      new BrushTime('Mo', 120),
+      new BrushTime('Tu', 120),
+      new BrushTime('We', 120),
+      new BrushTime('Th', 120),
+      new BrushTime('Fr', 120),
+      new BrushTime('Sa', 120),
+      new BrushTime('So', 120),
+    ];
+
+    final session3 = [
+      new BrushTime('Mo', 235),
+      new BrushTime('Tu', 125),
+      new BrushTime('We', 100),
+      new BrushTime('Th', 175),
+      new BrushTime('Fr', 185),
+      new BrushTime('Sa', 225),
+      new BrushTime('So', 100),
+    ];
+
+
+
+    return [
+      new charts.Series<BrushTime, String>(
+        id: 'session1',
+        domainFn: (BrushTime brush, _) => brush.day,
+        measureFn: (BrushTime brush, _) => brush.minute,
+        data: session1,
+        colorFn: (_,__) => charts.MaterialPalette.red.shadeDefault,
+        fillColorFn: (_, __) =>
+        charts.MaterialPalette.red.shadeDefault.lighter,
+      ),
+      new charts.Series<BrushTime, String>(
+        id: 'session2',
+        domainFn: (BrushTime brush, _) => brush.day,
+        measureFn: (BrushTime brush, _) => brush.minute,
+        data: session3,
+        colorFn: (_,__) => charts.MaterialPalette.blue.shadeDefault,
+        fillColorFn: (_, __) =>
+        charts.MaterialPalette.blue.shadeDefault.darker,
+      ),
+      new charts.Series<BrushTime, String>(
+        id: 'session3',
+        domainFn: (BrushTime brush, _) => brush.day,
+        measureFn: (BrushTime brush, _) => brush.minute,
+        data: session2,
+        colorFn: (_,__) => charts.MaterialPalette.blue.shadeDefault,
+        fillColorFn: (_, __) =>
+        charts.MaterialPalette.blue.shadeDefault.lighter,
+      ),
+
+    ];
   }
 }
