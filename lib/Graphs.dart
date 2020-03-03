@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:ohc_app/get_data.dart';
 
 class GraphContainer extends StatelessWidget
 {
-  final List<List<int>> data;
+  final ReportData reportData;
+  static List<List<int>> data;
   final String firstString;
   final String secondString;
   final String thirdString;
@@ -11,11 +13,49 @@ class GraphContainer extends StatelessWidget
   final IconData firstIcon;
   final int graphType;
 
-  GraphContainer({this.data,this.firstString,this.secondString,this.thirdString,this.fourthString,this.firstIcon,this.graphType});
+  GraphContainer(
+      {
+        this.reportData,
+        this.firstString,
+        this.secondString,
+        this.thirdString,
+        this.fourthString,
+        this.firstIcon,
+        this.graphType
+      }
+  );
+
+  void getData()
+  {
+    int day=0;
+    data = new List<List<int>>();
+
+    for(var i in reportData.days )
+      {
+        data.add([]);
+        data[day].add(day);
+        data[day].add(i.sessions.length);
+        day++;
+      }
+    for(;day<7;day++)
+      {
+        data.add([]);
+        data[day].add(day);
+        data[day].add(0);
+      }
+    print(data);
+  }
 
   @override
   Widget build(BuildContext context)
   {
+    try {
+      getData();
+    }
+    catch(e)
+    {
+      print(e);
+    }
     return(
         Container(
           child: Column(
@@ -41,8 +81,18 @@ class GraphContainer extends StatelessWidget
               Row(
                 children: <Widget>[
                   Icon(firstIcon),
-                  Text(thirdString,style: TextStyle(fontSize: 40),),
-                  Text(fourthString,style: TextStyle(color: Colors.grey),),
+                  Text(
+                    thirdString,
+                    style: TextStyle(
+                        fontSize: 40
+                    ),
+                  ),
+                  Text(
+                    fourthString,
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
 
                 ],
               ),
@@ -57,7 +107,9 @@ class GraphContainer extends StatelessWidget
                     padding: const EdgeInsets.all(5),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.tag_faces),
+                        Icon(
+                            Icons.tag_faces
+                        ),
                         Text('good')
                       ],
                     ),
@@ -66,7 +118,9 @@ class GraphContainer extends StatelessWidget
                     padding: const EdgeInsets.all(5),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.tag_faces),
+                        Icon(
+                            Icons.tag_faces
+                        ),
                         Text('too hard')
                       ],
                     ),
@@ -75,7 +129,9 @@ class GraphContainer extends StatelessWidget
                     padding: const EdgeInsets.all(5),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.tag_faces),
+                        Icon(
+                            Icons.tag_faces
+                        ),
                         Text('n/a')
                       ],
                     ),
@@ -95,29 +151,64 @@ class IconGraph extends StatelessWidget
 {
   final List<List<int>> data;
   IconGraph({this.data});
-  Widget iconBar(IconData a, IconData b, String day)
+  Widget iconBar(int a, String day)
   {
+    List<Widget> iconList = new List<Widget>();
     double size = 40;
+    if(a==0)
+      {
+        iconList.add(
+          Container(
+              padding: const EdgeInsets.all(10),
+              child: Icon(Icons.remove, size: size)
+          ),
+        );
+        iconList.add(
+          Container(
+              padding: const EdgeInsets.all(10),
+              child: Icon(Icons.remove, size: size)
+          ),
+        );
+      }
+    else if(a==1)
+    {
+      iconList.add(
+        Container(
+            padding: const EdgeInsets.all(10),
+            child: Icon(Icons.remove, size: size)
+        ),
+      );
+      iconList.add(
+        Container(
+            padding: const EdgeInsets.all(10),
+            child: Icon(Icons.add, size: size)
+        ),
+      );
+
+    }
+    else if(a>=2) {
+      for (int i = 0; i < a; i++) {
+        iconList.add(
+          Container(
+              padding: const EdgeInsets.all(10),
+              child: Icon(Icons.add, size: size)
+          ),
+        );
+      }
+    }
+
+    iconList.add(
+        Container(
+          padding:const EdgeInsets.only(top: 10,left: 15),
+          child:Text(day,),)
+    );
     return( new Container(
       padding: const EdgeInsets.all(5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         //mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-              padding: const EdgeInsets.all(10),
-              child: Icon(a,size: size,)
-          ),
-          Container(
-              padding: const EdgeInsets.all(10),
-              child: Icon(b,size: size)
-          ),
-          Container(
-            padding:const EdgeInsets.only(top: 10,left: 15),
-            child:Text(day,),)
-          ,
-        ],
+        children: iconList,
       ),
     )
     );
@@ -126,19 +217,11 @@ class IconGraph extends StatelessWidget
   List<Widget> graphBuilder()
   {
     List<Widget> widgets = new List<Widget>();
-    var a,b;
     List<String> day = ['S','M','T','W','T','F','S'];
     for(var i=0;i<this.data.length;i++)
     {
-      if(data[i][0]==1)
-        a = Icons.plus_one;
-      else
-        a = Icons.star;
-      if(data[i][1]==0)
-        b = Icons.plus_one;
-      else
-        b = Icons.star;
-      widgets.add(new Expanded(child:iconBar(a,b,day[data[i][2]])));
+
+      widgets.add(new Expanded(child:iconBar(data[i][1],day[data[i][0]])));            //here
     }
     return widgets;
   }

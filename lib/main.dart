@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Graphs.dart';
 import 'get_data.dart';
-import 'Time.dart';
+//import 'Time.dart';
 class MyApp extends StatelessWidget
 {
 
@@ -113,11 +113,6 @@ class MyApp extends StatelessWidget
     parser = new JsonDataParser();
     parser.loadJsonData();
     Report report = new Report.fromJson(parser.mapper);
-    print(report.data.scrubbing.average);
-
-    String timeStamp = "2020-02-26T16:32:21+0530";
-    TimeZone timeZone = TimeZone(timeStamp);
-    //catch(e){print(e);print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");}
 
 
 
@@ -134,13 +129,13 @@ class MyApp extends StatelessWidget
           second,
           third,
           fourth,
-          GraphContainer(data:data, firstString: 'Brushing daily' , secondString:'average',thirdString:'1.6',fourthString:'/day',firstIcon:Icons.style,graphType: 0,),
+          GraphContainer(reportData:report.data.frequency, firstString: 'Brushing daily' , secondString:'average',thirdString:'1.6',fourthString:'/day',firstIcon:Icons.style,graphType: 0,),
           SizedBox(height: 10),
-          GraphContainer(data:data, firstString: 'Scrubbing applied' , secondString:'',thirdString:'good',fourthString:'',firstIcon:Icons.style,graphType: 1,),
+          GraphContainer(reportData:report.data.duration, firstString: 'Brushing time' , secondString:'',thirdString:'good',fourthString:'',firstIcon:Icons.style,graphType: 1,),
           SizedBox(height: 10),
-          GraphContainer(data:data, firstString: 'Pressure applied' , secondString:'',thirdString:'too hard',fourthString:'',firstIcon:Icons.style,graphType: 0,),
+          GraphContainer(reportData:report.data.pressure, firstString: 'Pressure applied' , secondString:'',thirdString:'too hard',fourthString:'',firstIcon:Icons.style,graphType: 0,),
           SizedBox(height: 10),
-          GraphContainer(data:data, firstString: 'Scrubbing applied' , secondString:'',thirdString:'good',fourthString:'',firstIcon:Icons.style,graphType: 0,),
+          GraphContainer(reportData:report.data.scrubbing, firstString: 'Scrubbing applied' , secondString:'',thirdString:'good',fourthString:'',firstIcon:Icons.style,graphType: 0,),
           SizedBox(height: 10),
           ninth,
 
@@ -154,6 +149,5 @@ void main(){
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Progress',
-    home: MyApp(),
-  ));
+    home: MyApp(),));
 }
