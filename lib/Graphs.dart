@@ -198,14 +198,23 @@ class GroupedBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return( charts.BarChart(
-      seriesList,
-      animate: animate,
-      barGroupingType: charts.BarGroupingType.grouped,
-      defaultRenderer: new charts.BarRendererConfig(
+    return new charts.BarChart(
+        seriesList,
+        animate: animate,
 
-          cornerStrategy: const charts.ConstCornerStrategy(30)),
-    ));
+
+        barGroupingType: charts.BarGroupingType.grouped,
+        defaultRenderer: new charts.BarRendererConfig(
+
+            cornerStrategy: const charts.ConstCornerStrategy(30)),
+        primaryMeasureAxis: charts.NumericAxisSpec(
+          tickProviderSpec: charts.BasicNumericTickProviderSpec(
+              dataIsInWholeNumbers: true,
+              desiredTickCount: 4),
+          renderSpec: charts.GridlineRendererSpec(
+            lineStyle: charts.LineStyleSpec(
+              dashPattern: [4,4 ],
+            ),),));
   }
 
   /// Create series list with multiple series
