@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Graphs.dart';
 import 'get_data.dart';
+import 'Time.dart';
 class MyApp extends StatelessWidget
 {
 
@@ -108,10 +109,14 @@ class MyApp extends StatelessWidget
     data.add([1,1,6]);
 
     JsonDataParser parser ;
+
     parser = new JsonDataParser();
     parser.loadJsonData();
     Report report = new Report.fromJson(parser.mapper);
     print(report.data.scrubbing.average);
+
+    String timeStamp = "2020-02-26T16:32:21+0530";
+    TimeZone timeZone = TimeZone(timeStamp);
     //catch(e){print(e);print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");}
 
 
