@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Graphs.dart';
-
-//Widget iconTray()
-
+import 'get_data.dart';
 class MyApp extends StatelessWidget
 {
 
@@ -108,6 +106,16 @@ class MyApp extends StatelessWidget
     data.add([1,1,4]);
     data.add([1,0,5]);
     data.add([1,1,6]);
+
+    JsonDataParser parser ;
+    parser = new JsonDataParser();
+    parser.loadJsonData();
+    Report report = new Report.fromJson(parser.mapper);
+    print(report.data.scrubbing.average);
+    //catch(e){print(e);print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");}
+
+
+
 
     return(Scaffold(
       appBar: AppBar(
