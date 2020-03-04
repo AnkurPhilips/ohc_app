@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'Graphs.dart';
+import 'package:ohc_app/PageOne.dart';
 import 'get_data.dart';
-import 'widgets.dart';
+import 'package:ohc_app/PageTwo.dart';
+import 'package:ohc_app/PageThree.dart';
 class MyApp extends StatelessWidget
 {
 
@@ -52,33 +53,51 @@ class MyApp extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+    List <Widget> pages=[
+      PageOne(
+        weekString: weekString,
+        iconSize: iconSize,
+        report: report,
+      ),
+      PageTwo(
+        report: report
+      ),
+    PageThree(
+      report: report,
+    )];
     return(Scaffold(
       appBar: AppBar(
         title: Center(child:Text('Progress')),
       ),
-      body: ListView(
+      body: 
+      Container(
         padding: const EdgeInsets.all(10),
-        children: <Widget>[
-          first(weekString),
-          SizedBox(height: 10),
-          second(iconSize),
-          third(),
-          fourth(),
-          GraphContainer(reportData:report.data.duration, firstString: 'Brushing time' , secondString:'average',thirdString:'1.6',fourthString:'/day',firstIcon:Icons.style,graphType: 0,),
-          SizedBox(height: 10),
-          GraphContainer(reportData:report.data.frequency, firstString: 'Brushing daily' , secondString:'',thirdString:'good',fourthString:'',firstIcon:Icons.style,graphType: 1,),
-          SizedBox(height: 10),
-          GraphContainer(reportData:report.data.pressure, firstString: 'Pressure applied' , secondString:'',thirdString:'too hard',fourthString:'',firstIcon:Icons.style,graphType: 0,),
-          SizedBox(height: 10),
-          GraphContainer(reportData:report.data.scrubbing, firstString: 'Scrubbing applied' , secondString:'',thirdString:'good',fourthString:'',firstIcon:Icons.style,graphType: 0,),
-          SizedBox(height: 10),
-          ninth(),
+        child: 
+         PageView(
 
-        ],
-      ),
-    ));
+           children:
+               <Widget>
+        [
+          Container(
+            child:pages[0] ,
+            padding: EdgeInsets.all(10),
+          ),
+          Container(
+            child: pages[1],
+            padding: EdgeInsets.all(10),
+          ),
+                 Container(
+                 child:pages[2] ,
+                 padding: EdgeInsets.all(10),
+               ),],
+          scrollDirection: Axis.vertical,
+          pageSnapping: false,
+        ),
+      )
+      )
+      );
+    }
   }
-}
 
 void main(){
   runApp(MaterialApp(
