@@ -27,21 +27,44 @@ class GraphContainer extends StatelessWidget
 
   void getData()
   {
-    int day=0;
+
     data = new List<List<int>>();
+    int day = -1,start,end,iterator=0;
+    //List<int> week = [0,0,0,0,0,0,0];
+
 
     for(var i in reportData.days )
       {
+        if(day==-1) {
+          day = DateTime
+              .parse(i.date)
+              .weekday % 7;
+          start = day;
+        }
+        //week[day]=1;
         data.add([]);
-        data[day].add(day);
-        data[day].add(i.sessions.length);
-        day++;
+        data[iterator].add(day);
+        data[iterator].add(i.sessions.length);
+        day=(day+1)%7;
+        iterator++;
       }
-    for(;day<7;day++)
+    if(day==0)
+      end = 6;
+    else
+      end = day-1;
+    if(start==0)
+      day = 6;
+    else
+      day = start-1;
+    print(start);
+    print(end);
+    print(day);
+    for(;day!=end;)
       {
-        data.add([]);
-        data[day].add(day);
-        data[day].add(0);
+        data.insert(0, [day,0]);
+        day=day-1;
+        if(day==-1)
+          day=6;
       }
     print(data);
   }
