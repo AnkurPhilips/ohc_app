@@ -306,34 +306,35 @@ class GroupedBarChart extends StatelessWidget {
 
     final session1 = [
 
-      new BrushTime('Mo', 240),
-      new BrushTime('Tu', 225),
-      new BrushTime('We', 180),
-      new BrushTime('Th', 165),
-      new BrushTime('Fr', 195),
-      new BrushTime('Sa', 95),
-      new BrushTime('So', 100),
+      new BrushTime('Mon', 140),
+      new BrushTime('Tue', 125),
+      new BrushTime('Wed', 130),
+      new BrushTime('Thu', 115),
+      new BrushTime('Fri', 125),
+      new BrushTime('Sat', 105),
+      new BrushTime('Sun', 120),
 
     ];
 
+
     final session2 = [
-      new BrushTime('Mo', 120),
-      new BrushTime('Tu', 120),
-      new BrushTime('We', 120),
-      new BrushTime('Th', 120),
-      new BrushTime('Fr', 120),
-      new BrushTime('Sa', 120),
-      new BrushTime('So', 120),
+      new BrushTime('Mon', 0),
+      new BrushTime('Tue', 0),
+      new BrushTime('Wed', 0),
+      new BrushTime('Thu', 0),
+      new BrushTime('Fri', 0),
+      new BrushTime('Sat', 0),
+      new BrushTime('Sun', 0),
     ];
 
     final session3 = [
-      new BrushTime('Mo', 235),
-      new BrushTime('Tu', 125),
-      new BrushTime('We', 100),
-      new BrushTime('Th', 175),
-      new BrushTime('Fr', 185),
-      new BrushTime('Sa', 225),
-      new BrushTime('So', 100),
+      new BrushTime('Mon', 120),
+      new BrushTime('Tue', 120),
+      new BrushTime('Wed', 120),
+      new BrushTime('Thu', 120),
+      new BrushTime('Fri', 120),
+      new BrushTime('Sat', 120),
+      new BrushTime('Sun', 120),
     ];
 
 
@@ -344,27 +345,27 @@ class GroupedBarChart extends StatelessWidget {
         domainFn: (BrushTime brush, _) => brush.day,
         measureFn: (BrushTime brush, _) => brush.minute,
         data: session1,
-        colorFn: (_,__) => charts.MaterialPalette.red.shadeDefault,
+        colorFn: (_,__) => charts.MaterialPalette.green.shadeDefault,
         fillColorFn: (_, __) =>
-        charts.MaterialPalette.red.shadeDefault.lighter,
+        charts.MaterialPalette.green.shadeDefault.lighter,
       ),
       new charts.Series<BrushTime, String>(
         id: 'session2',
         domainFn: (BrushTime brush, _) => brush.day,
         measureFn: (BrushTime brush, _) => brush.minute,
-        data: session3,
-        colorFn: (_,__) => charts.MaterialPalette.blue.shadeDefault,
+        data: session2,
+        colorFn: (_,__) => charts.MaterialPalette.green.shadeDefault,
         fillColorFn: (_, __) =>
-        charts.MaterialPalette.blue.shadeDefault.darker,
+        charts.MaterialPalette.green.shadeDefault.darker,
       ),
       new charts.Series<BrushTime, String>(
         id: 'session3',
         domainFn: (BrushTime brush, _) => brush.day,
         measureFn: (BrushTime brush, _) => brush.minute,
-        data: session2,
-        colorFn: (_,__) => charts.MaterialPalette.blue.shadeDefault,
+        data: session3,
+        colorFn: (_,__) => charts.MaterialPalette.gray.shade50,
         fillColorFn: (_, __) =>
-        charts.MaterialPalette.blue.shadeDefault.lighter,
+        charts.MaterialPalette.gray.shadeDefault.lighter,
       ),
 
     ];
