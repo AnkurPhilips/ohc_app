@@ -49,16 +49,16 @@ class Session
 
 class Day
 {
-  String day;
+  String date;
   List<Session> sessions;
   void show()
   {
     print("This is the show function of Day class");
-    print(day);
+    print(date);
     print(sessions.length);
     print("Till here");
   }
-  Day({this.day,this.sessions});
+  Day({this.date,this.sessions});
 
   factory Day.fromJson(Map<String,dynamic> json,int type)
   {
@@ -66,7 +66,7 @@ class Day
     var list = json['sessions'] as List;
     List<Session> sessionList = list.map((i)=>Session.fromJson(i,type)).toList();
     return Day(
-        day: json['day'],
+        date: json['day'],
         sessions: sessionList
     );
   }
