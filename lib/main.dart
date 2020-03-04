@@ -1,44 +1,21 @@
 import 'package:flutter/material.dart';
 import 'Graphs.dart';
 import 'get_data.dart';
-import 'progress_report_widgets.dart';
+import 'widgets.dart';
 class MyApp extends StatelessWidget
 {
 
   static double iconSize = 80;
   static String weekString;
 
-  static Widget customIcon(IconData icon, double size,  String data){
-    return(Column(
-      children: <Widget>[
-        Icon(icon, size: size, color: Colors.indigo, ),
-        Container(padding: const EdgeInsets.only(top: 5),child: Text(data, ))
-      ],
-    )
-    );
-  }
-
   @override
   Widget build(BuildContext context)
   {
-    List<List<int>> data = new List();
-    data.add([1,1,0]);
-    data.add([1,0,1]);
-    data.add([1,1,2]);
-    data.add([0,1,3]);
-    data.add([1,1,4]);
-    data.add([1,0,5]);
-    data.add([1,1,6]);
-
     JsonDataParser parser ;
-
     parser = new JsonDataParser();
     parser.loadJsonData();
+
     Report report = new Report.fromJson(parser.mapper);
-    print(report.data.scrubbing.average);
-
-
-
 
     return(Scaffold(
       appBar: AppBar(
