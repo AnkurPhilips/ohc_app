@@ -36,10 +36,10 @@ Widget customIcon(IconData icon, double size,  String data){
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          customIcon(Icons.access_alarm,iconSize,'Daily'),
-          customIcon(Icons.access_alarm,iconSize,'Time'),
-          customIcon(Icons.access_alarm,iconSize,'Pressure'),
-          customIcon(Icons.access_alarm,iconSize,'Scrubbing'),
+          customIcon(Icons.looks_two,iconSize,'Daily'),
+          customIcon(Icons.timelapse,iconSize,'Time'),
+          customIcon(Icons.pool,iconSize,'Pressure'),
+          customIcon(Icons.brush,iconSize,'Scrubbing'),
         ],
       ));
 
