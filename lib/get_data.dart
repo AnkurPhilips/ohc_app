@@ -6,22 +6,17 @@ class JsonDataParser
   String data;
   Map mapper;
 
-
-
   void loadJsonData(){
     String data = ReadWeeklyData.data;
     mapper = jsonDecode(data);
   }
-
   String getData(){
     return data;
   }
   Map getMapper(){
     return mapper;
   }
-
 }
-
 
 class Session
 {
@@ -51,6 +46,7 @@ class Day
 {
   String date;
   List<Session> sessions;
+
   void show()
   {
     print("This is the show function of Day class");
