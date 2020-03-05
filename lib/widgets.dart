@@ -69,6 +69,7 @@ Widget customIcon(IconData icon, double size,  String data){
   );
 
   Widget fourth(BuildContext context) => Container(
+    padding: EdgeInsets.only(bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[

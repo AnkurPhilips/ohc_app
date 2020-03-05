@@ -54,7 +54,7 @@ class GraphContainer extends StatelessWidget
   {
     getData();
     return(
-        Container(
+        Container( padding: EdgeInsets.only(top: 20,bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
