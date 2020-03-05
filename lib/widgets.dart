@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
-Widget customIcon(IconData icon, double size,  String data){
-    return(Column(
-      children: <Widget>[
-        Icon(icon, size: size, color: Colors.indigo, ),
-        Container(padding: const EdgeInsets.only(top: 5),child: Text(data, ))
+Widget customIcon(
+    IconData icon, double size,  String data)
+  {
+    return(
+        Column(
+          children: <Widget>[
+            Icon(icon, size: size, color: Colors.indigo, ),
+            Container(padding: const EdgeInsets.only(top: 5),child: Text(data, ))
       ],
     )
     );
@@ -14,7 +17,6 @@ Widget customIcon(IconData icon, double size,  String data){
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: <Widget>[
         Text('Hi Jane,',
           style: TextStyle(
@@ -32,7 +34,7 @@ Widget customIcon(IconData icon, double size,  String data){
                       text:"Here's what your oral care looked like this week, from "),
                   TextSpan(
                       text: weekString,style: TextStyle(fontWeight: FontWeight.bold))]),
-                   softWrap: true,),
+                      softWrap: true,),
         )],
     ),
   );
@@ -48,7 +50,8 @@ Widget customIcon(IconData icon, double size,  String data){
           customIcon(Icons.pool,iconSize,'Pressure'),
           customIcon(Icons.brush,iconSize,'Scrubbing'),
         ],
-      ));
+      )
+  );
 
   Widget third() => Container(
     decoration: BoxDecoration(
@@ -57,7 +60,6 @@ Widget customIcon(IconData icon, double size,  String data){
     padding: const EdgeInsets.all(10),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: <Widget>[
         Text('Frequency: Did you know ?',style:TextStyle(
             fontWeight: FontWeight.bold
@@ -125,7 +127,6 @@ class Second extends StatelessWidget{
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 15,
-
                     ),
                   ),
                 ),
@@ -134,7 +135,6 @@ class Second extends StatelessWidget{
                   padding: EdgeInsets.only(top:10, left: 20),
                   child: FlatButton.icon(
                     shape: CircleBorder(),
-
                     label: Text('Daily brushing average :',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -151,7 +151,6 @@ class Second extends StatelessWidget{
                     style: TextStyle(
                       fontSize: 15,
                     ),
-
                   ),
                 ),
                 Dash(length: 450,dashColor: Colors.grey.shade300,),
@@ -176,7 +175,6 @@ class Second extends StatelessWidget{
                     style: TextStyle(
                       fontSize: 15,
                     ),
-
                   ),
                 ),
                 Dash(length: 450,dashColor: Colors.grey.shade300,),
@@ -184,7 +182,6 @@ class Second extends StatelessWidget{
                   padding: EdgeInsets.only(top:20,left: 20),
                   child: FlatButton.icon(
                     shape: CircleBorder(),
-
                     label: Text('Pressure applied :',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -201,7 +198,6 @@ class Second extends StatelessWidget{
                     style: TextStyle(
                       fontSize: 15,
                     ),
-
                   ),
                 ),
                 Dash(length: 450,dashColor: Colors.grey.shade300,),
@@ -209,7 +205,6 @@ class Second extends StatelessWidget{
                   padding: EdgeInsets.only(top:10, left: 20),
                   child: FlatButton.icon(
                     shape: CircleBorder(),
-
                     label: Text('Scrubbing applied :',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -226,11 +221,9 @@ class Second extends StatelessWidget{
                     style: TextStyle(
                       fontSize: 15,
                     ),
-
                   ),
                 ),
                 Dash(length: 450,dashColor: Colors.grey.shade300,),
-
                 Container(color: Colors.grey.shade300,
                   padding: EdgeInsets.only(top:10, left: 20),
                   child: FlatButton.icon(
@@ -253,16 +246,12 @@ class Second extends StatelessWidget{
                     style: TextStyle(
                       fontSize: 15,
                     ),
-
                   ),
                 ),
-
-
               ]
           )
       ),
     );
-
   }
 }
 

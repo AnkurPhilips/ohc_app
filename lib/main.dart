@@ -5,7 +5,6 @@ import 'package:ohc_app/PageTwo.dart';
 import 'package:ohc_app/PageThree.dart';
 class MyApp extends StatelessWidget
 {
-
   static double iconSize=80;
   static String weekString ;
   static Report report;
@@ -28,9 +27,9 @@ class MyApp extends StatelessWidget
   {
     DateTime startDate = DateTime.parse(report.data.reportStartDate);
     DateTime endDate = DateTime.parse(report.data.reportEndDate);
-
     int diff = startDate.difference(endDate).inDays;
-    List<String> months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    List<String> months = [
+      'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     int a,c;
     String b,d;
 
@@ -59,25 +58,27 @@ class MyApp extends StatelessWidget
         iconSize: iconSize,
         report: report,
       ),
+
       PageTwo(
         report: report
       ),
-    PageThree(
+
+      PageThree(
       report: report,
-    )];
+      )
+    ];
+
     return(Scaffold(
       appBar: AppBar(
-        title: Center(child:Text('Progress')),
+        title: Center(
+            child:Text(
+                'Progress')),
       ),
-      body: 
-      Container(
+      body: Container(
         padding: const EdgeInsets.all(10),
         child: 
          PageView(
-
-
-           children:
-           <Widget>[
+           children: <Widget>[
            Container(
              height: 10,
               child:pages[0] ,
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget
               child: pages[1],
                 padding: EdgeInsets.all(10),
           ),
+
                  Container(
                    height: 10,
                    child:pages[2] ,
@@ -96,15 +98,16 @@ class MyApp extends StatelessWidget
           pageSnapping: false,
         ),
       )
-      )
-      );
-    }
+     )
+    );
   }
+}
 
 void main(){
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Progress',
     home: MyApp(),
-  ));
+  )
+  );
 }
