@@ -5,7 +5,7 @@ import 'package:ohc_app/get_data.dart';
 class GraphContainer extends StatelessWidget
 {
   final ReportData reportData;
-  static List<List<int>> data;
+  static Map<int,List<Session>> data;
   final String firstString;
   final String secondString;
   final String thirdString;
@@ -28,57 +28,31 @@ class GraphContainer extends StatelessWidget
   void getData()
   {
 
-    data = new List<List<int>>();
-    int day = -1,start,end,iterator=0;
-    //List<int> week = [0,0,0,0,0,0,0];
+    data = new Map<int,List<Session>>();
+    int iterator;
 
-
+    Day lastDate = reportData.days[reportData.days.length-1];
+    int lastWeekDay = DateTime.parse(lastDate.date).weekday%7;
+    for(iterator =(lastWeekDay+1)%7;;)
+    {
+         data[iterator]=[];
+         if(iterator==lastWeekDay)
+           break;
+         iterator=(iterator+1)%7;
+    }
     for(var i in reportData.days )
-      {
-        if(day==-1) {
-          day = DateTime
-              .parse(i.date)
-              .weekday % 7;
-          start = day;
-        }
-        //week[day]=1;
-        data.add([]);
-        data[iterator].add(day);
-        data[iterator].add(i.sessions.length);
-        day=(day+1)%7;
-        iterator++;
+    {
+      int day = DateTime.parse(i.date).weekday%7;
+      for(Session j in i.sessions) {
+        data[day].add(j);
       }
-    if(day==0)
-      end = 6;
-    else
-      end = day-1;
-    if(start==0)
-      day = 6;
-    else
-      day = start-1;
-    print(start);
-    print(end);
-    print(day);
-    for(;day!=end;)
-      {
-        data.insert(0, [day,0]);
-        day=day-1;
-        if(day==-1)
-          day=6;
-      }
-    print(data);
+    }
   }
 
   @override
   Widget build(BuildContext context)
   {
-    try {
-      getData();
-    }
-    catch(e)
-    {
-      print(e);
-    }
+    getData();
     return(
         Container(
           child: Column(
@@ -122,7 +96,7 @@ class GraphContainer extends StatelessWidget
 
               //Text('min',style: TextStyle(color: Colors.grey),),
 
-              (graphType==1?BarGraph():IconGraph(data: data,)),
+              (graphType==1?BarGraph(data:data):IconGraph(data: data)),
 
               Row(
                 children: <Widget>[
@@ -172,7 +146,7 @@ class GraphContainer extends StatelessWidget
 
 class IconGraph extends StatelessWidget
 {
-  final List<List<int>> data;
+  final Map<int,List<Session>> data;
   IconGraph({this.data});
   Widget iconBar(int a, String day)
   {
@@ -241,10 +215,12 @@ class IconGraph extends StatelessWidget
   {
     List<Widget> widgets = new List<Widget>();
     List<String> day = ['S','M','T','W','T','F','S'];
-    for(var i=0;i<this.data.length;i++)
+    var order = data.keys ;
+
+    for(int i in order)
     {
 
-      widgets.add(new Expanded(child:iconBar(data[i][1],day[data[i][0]])));            //here
+      widgets.add(new Expanded(child:iconBar(data[i].length,day[i])));
     }
     return widgets;
   }
@@ -263,6 +239,8 @@ class IconGraph extends StatelessWidget
 
 class BarGraph extends StatelessWidget
 {
+  Map<int,List<Session>> data;
+  BarGraph({this.data});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -272,7 +250,7 @@ class BarGraph extends StatelessWidget
             child:
             Container(
               height: 300,
-              child: GroupedBarChart.withSampleData(),
+              child: GroupedBarChart.withData(data),
             )
         )
 
@@ -295,9 +273,9 @@ class GroupedBarChart extends StatelessWidget {
 
   GroupedBarChart(this.seriesList, {this.animate});
 
-  factory GroupedBarChart.withSampleData() {
+  factory GroupedBarChart.withData(Map<int,List<Session>> data) {
     return new GroupedBarChart(
-      _createSampleData(),
+      _createData(data),
       animate: true,
     );
   }
@@ -325,73 +303,78 @@ class GroupedBarChart extends StatelessWidget {
   }
 
   /// Create series list with multiple series
-  static List<charts.Series<BrushTime, String>> _createSampleData() {
+
+  static List<BrushTime> getSeries(Map<int,List<Session>> data,int sessionNo)//0,1
+  {
+    List<String> days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    List<BrushTime> x = new List<BrushTime>();
+    var order = data.keys;
+    print(order);
+    print(sessionNo);
+    print(data);
+    for(var i in order)
+      {
+        print(i);
+        if(data[i].length>sessionNo)
+          x.add(BrushTime(days[i], data[i][sessionNo].data.toInt()));
+        else
+          x.add(BrushTime(days[i], 0));
+      }
+    print(x);
 
 
-    final session1 = [
+    return x;
 
-      new BrushTime('Mon', 140),
-      new BrushTime('Tue', 125),
-      new BrushTime('Wed', 130),
-      new BrushTime('Thu', 115),
-      new BrushTime('Fri', 125),
-      new BrushTime('Sat', 105),
-      new BrushTime('Sun', 120),
-
-    ];
+  }
+  static List<charts.Series<BrushTime, String>> _createData(Map<int,List<Session>> data) {
 
 
-    final session2 = [
-      new BrushTime('Mon', 0),
-      new BrushTime('Tue', 0),
-      new BrushTime('Wed', 0),
-      new BrushTime('Thu', 0),
-      new BrushTime('Fri', 0),
-      new BrushTime('Sat', 0),
-      new BrushTime('Sun', 0),
-    ];
-
-    final session3 = [
-      new BrushTime('Mon', 120),
-      new BrushTime('Tue', 120),
-      new BrushTime('Wed', 120),
-      new BrushTime('Thu', 120),
-      new BrushTime('Fri', 120),
-      new BrushTime('Sat', 120),
-      new BrushTime('Sun', 120),
-    ];
+    List<List<BrushTime>> series = new List<List<BrushTime>>();
+    List<charts.Series<BrushTime, String>> graphData = new List<charts.Series<BrushTime, String>>();
 
 
+    int max = 0;
+    var order = data.keys;
+    for(var i in order)
+    {
+      if(data[i].length>max)
+        max = data[i].length;
+    }
+    print(max);
 
-    return [
-      new charts.Series<BrushTime, String>(
-        id: 'session1',
-        domainFn: (BrushTime brush, _) => brush.day,
-        measureFn: (BrushTime brush, _) => brush.minute,
-        data: session1,
-        colorFn: (_,__) => charts.MaterialPalette.green.shadeDefault,
-        fillColorFn: (_, __) =>
-        charts.MaterialPalette.green.shadeDefault.lighter,
-      ),
-      new charts.Series<BrushTime, String>(
-        id: 'session2',
-        domainFn: (BrushTime brush, _) => brush.day,
-        measureFn: (BrushTime brush, _) => brush.minute,
-        data: session2,
-        colorFn: (_,__) => charts.MaterialPalette.green.shadeDefault,
-        fillColorFn: (_, __) =>
-        charts.MaterialPalette.green.shadeDefault.darker,
-      ),
-      new charts.Series<BrushTime, String>(
-        id: 'session3',
-        domainFn: (BrushTime brush, _) => brush.day,
-        measureFn: (BrushTime brush, _) => brush.minute,
-        data: session3,
-        colorFn: (_,__) => charts.MaterialPalette.gray.shade50,
-        fillColorFn: (_, __) =>
-        charts.MaterialPalette.gray.shadeDefault.lighter,
-      ),
+    for(var i=0;i<max;i++)
+    {
+      print("Reches here atleast");
+      print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
+      series.add(getSeries(data,i));//0,1
+    }
+    print("Reches here atleast");
+    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
 
-    ];
+    int cnt=0;
+
+    print("The series is getting created");
+
+    print(series);
+
+    for(var i in series)
+    {
+      graphData.add(
+        new charts.Series<BrushTime, String>(
+          id: 'session'+cnt.toString(),
+          domainFn: (BrushTime brush, _) => brush.day,
+          measureFn: (BrushTime brush, _) => brush.minute,
+          data: i,
+          colorFn: (_,__) => (cnt==1)?charts.MaterialPalette.gray.shadeDefault.lighter:charts.MaterialPalette.green.shadeDefault.lighter,
+          fillColorFn: (_, __) =>(cnt==1)?
+          charts.MaterialPalette.gray.shadeDefault.lighter:charts.MaterialPalette.green.shadeDefault.lighter,
+        ),
+      );
+      cnt++;
+    }
+  print(graphData);
+  return graphData;
+
+
   }
 }

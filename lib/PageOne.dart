@@ -14,23 +14,22 @@ class PageOne extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return ListView(
+      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         first(weekString),
-        SizedBox(height: 10),
         second(iconSize),
         third(),
         fourth(),
+
         GraphContainer(
-          reportData:report.data.duration,
-          firstString: 'Brushing time' ,
+          reportData:report.data.frequency,
+          firstString: 'Brushing daily' ,
           secondString:'average',
-          thirdString:'1.6',
+          thirdString:report.data.frequency.average.toString(),
           fourthString:'/day',
           firstIcon:Icons.style,
           graphType: 0,),
-        SizedBox(height: 0),
 
       ],
     );
