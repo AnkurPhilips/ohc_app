@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget
           ),
           Container(
             child: pages[1],
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(0),
           ),
                  Container(
                  child:pages[2] ,

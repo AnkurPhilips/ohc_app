@@ -22,8 +22,15 @@ class PageOne extends StatelessWidget{
         second(iconSize),
         third(),
         fourth(),
-        GraphContainer(reportData:report.data.duration, firstString: 'Brushing time' , secondString:'average',thirdString:'1.6',fourthString:'/day',firstIcon:Icons.style,graphType: 0,),
-        SizedBox(height: 10),
+        GraphContainer(
+          reportData:report.data.duration,
+          firstString: 'Brushing time' ,
+          secondString:'average',
+          thirdString:'1.6',
+          fourthString:'/day',
+          firstIcon:Icons.style,
+          graphType: 0,),
+        SizedBox(height: 0),
 
       ],
     );

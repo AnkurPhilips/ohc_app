@@ -14,7 +14,13 @@ class PageThree extends StatelessWidget{
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        GraphContainer(reportData:report.data.scrubbing, firstString: 'Scrubbing applied' , secondString:'',thirdString:'good',fourthString:'',firstIcon:Icons.style,graphType: 0,),
+        GraphContainer(reportData:report.data.scrubbing,
+          firstString: 'Scrubbing applied' ,
+          secondString:'',
+          thirdString:'good',
+          fourthString:'',
+          firstIcon:Icons.style,
+          graphType: 0,),
         SizedBox(height: 10),
         ninth(),
 
