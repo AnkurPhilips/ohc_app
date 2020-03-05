@@ -20,7 +20,7 @@ class PageOne extends StatelessWidget{
         first(weekString),
         second(iconSize),
         third(),
-        fourth(),
+        fourth(context),
 
         GraphContainer(
           reportData:report.data.frequency,

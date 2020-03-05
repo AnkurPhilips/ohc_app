@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_dash/flutter_dash.dart';
 Widget customIcon(IconData icon, double size,  String data){
     return(Column(
       children: <Widget>[
@@ -23,9 +23,16 @@ Widget customIcon(IconData icon, double size,  String data){
           ),
           textAlign: TextAlign.left,
         ),
-        Container(padding:const EdgeInsets.only(top: 8),child:RichText(text: TextSpan(style: TextStyle(color: Colors.black, fontSize: 16),children:<TextSpan>[TextSpan(text:"Here's what your oral care looked like this week, from "),
-          TextSpan(text: weekString,style: TextStyle(fontWeight: FontWeight.bold))]),
-          softWrap: true,),
+        Container(padding:const EdgeInsets.only(top: 8),
+          child:RichText(
+            text: TextSpan(style: TextStyle(
+                color: Colors.black, fontSize: 16),
+                children:<TextSpan>[
+                  TextSpan(
+                      text:"Here's what your oral care looked like this week, from "),
+                  TextSpan(
+                      text: weekString,style: TextStyle(fontWeight: FontWeight.bold))]),
+                   softWrap: true,),
         )],
     ),
   );
@@ -61,16 +68,202 @@ Widget customIcon(IconData icon, double size,  String data){
     ),
   );
 
-  Widget fourth() => Container(
-    padding: const EdgeInsets.only(top: 5,bottom: 5),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Text('Best way to brush'),
-        Icon(Icons.lightbulb_outline)
-      ],
-    ),
+  Widget fourth(BuildContext context) => Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FlatButton.icon(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0)
+            ),
+            color: Colors.grey.shade300,
+            label: Text('Best way to brush'),
+            icon: Icon(Icons.lightbulb_outline),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Second()));
+            },
+          ),
+        ],
+      )
   );
+class Second extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+//      appBar: AppBar(
+//        title: Text(''),
+//      ),
+      body: Container(
+          child:Column(crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 25),
+                Row(mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon( Icons.close),
+                          onPressed:(){ Navigator.pop(context);}
+                      ),
+                    ]
+                ),
+                Container(
+                  padding: EdgeInsets.only(top:10, left: 20),
+                  child: Text(
+                    'Best way to brush',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 20,top:10,bottom: 20),
+                  child: Text(
+                    'To get the most out of your brushing, follow these simple rules',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 15,
+
+                    ),
+                  ),
+                ),
+                Dash(length: 450,dashColor: Colors.grey.shade300,),
+                Container(
+                  padding: EdgeInsets.only(top:10, left: 20),
+                  child: FlatButton.icon(
+                    shape: CircleBorder(),
+
+                    label: Text('Daily brushing average :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    icon: Icon(Icons.looks_two),
+                    onPressed: (){},
+                  ),
+                ),
+                Container( padding: EdgeInsets.only(left: 60,right: 10,bottom: 20),
+                  child: Text(
+                    'Brushing at least 2X per day is the best way to remove unwanted plaque and keep your teeth clean and white',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+
+                  ),
+                ),
+                Dash(length: 450,dashColor: Colors.grey.shade300,),
+                Container(
+                  padding: EdgeInsets.only(top:10, left: 20),
+                  child: FlatButton.icon(
+                    shape: CircleBorder(),
+
+                    label: Text('Brushing time average :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    icon: Icon(Icons.timelapse),
+                    onPressed: (){},
+                  ),
+                ),
+                Container( padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+                  child: Text(
+                    'Brush your teeth for at least 2 minutes per brushing to ensure that every surface tooth has been thoroughly cleaned',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+
+                  ),
+                ),
+                Dash(length: 450,dashColor: Colors.grey.shade300,),
+                Container(
+                  padding: EdgeInsets.only(top:20,left: 20),
+                  child: FlatButton.icon(
+                    shape: CircleBorder(),
+
+                    label: Text('Pressure applied :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    icon: Icon(Icons.brush),
+                    onPressed: (){},
+                  ),
+                ),
+                Container( padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+                  child: Text(
+                    'Very little pressure is needed to brush effectively White brushing,try holding the toothbrush with just your fingertips to maintain a light touch. Your Sonicare will do the work for you',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+
+                  ),
+                ),
+                Dash(length: 450,dashColor: Colors.grey.shade300,),
+                Container(
+                  padding: EdgeInsets.only(top:10, left: 20),
+                  child: FlatButton.icon(
+                    shape: CircleBorder(),
+
+                    label: Text('Scrubbing applied :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    icon: Icon(Icons.scatter_plot),
+                    onPressed: (){},
+                  ),
+                ),
+                Container( padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+                  child: Text(
+                    'Brush your teeth with a small back and forth motion so the bristles reach between the teeth. Continue this motion guiding your brush from tooth to tooth. Avoid scrubbing motoion as it might hurt your gums',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+
+                  ),
+                ),
+                Dash(length: 450,dashColor: Colors.grey.shade300,),
+
+                Container(color: Colors.grey.shade300,
+                  padding: EdgeInsets.only(top:10, left: 20),
+                  child: FlatButton.icon(
+                    shape: CircleBorder(),
+
+                    label: Text('Please note :                                                                            ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    icon: Icon(Icons.warning),
+                    onPressed: (){},
+                  ),
+                ),
+                Container( color: Colors.grey.shade300,
+                  padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+                  child: Text(
+                    'For accurate personalised guidance, be sure to keep your toothbrush connected to the App',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+
+                  ),
+                ),
+
+
+              ]
+          )
+      ),
+    );
+
+  }
+}
 
   Widget ninth() => Container(
     padding: const EdgeInsets.all(10),

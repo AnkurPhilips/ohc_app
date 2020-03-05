@@ -75,20 +75,22 @@ class MyApp extends StatelessWidget
         child: 
          PageView(
 
+
            children:
-               <Widget>
-        [
-          Container(
-            child:pages[0] ,
-            padding: EdgeInsets.all(10),
+           <Widget>[
+           Container(
+             height: 10,
+              child:pages[0] ,
+               padding: EdgeInsets.all(10),
           ),
-          Container(
-            child: pages[1],
-            padding: EdgeInsets.all(0),
+            Container(
+              child: pages[1],
+                padding: EdgeInsets.all(10),
           ),
                  Container(
-                 child:pages[2] ,
-                 padding: EdgeInsets.all(10),
+                   height: 10,
+                   child:pages[2] ,
+                   padding: EdgeInsets.all(10),
                ),],
           scrollDirection: Axis.vertical,
           pageSnapping: false,
