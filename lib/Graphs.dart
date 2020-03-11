@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:ohc_app/get_data.dart';
 
-class GraphContainer extends StatelessWidget
+class GraphContainer extends StatefulWidget
 {
   final ReportData reportData;
   static Map<int,List<Session>> data;
@@ -14,6 +14,39 @@ class GraphContainer extends StatelessWidget
   final int graphType;
 
   GraphContainer(
+  {
+  this.reportData,
+  this.firstString,
+  this.secondString,
+  this.thirdString,
+  this.fourthString,
+  this.firstIcon,
+  this.graphType
+  });
+
+  @override
+  _GraphContainer createState()=> _GraphContainer(reportData: this.reportData,
+    firstString: firstString,
+    secondString: secondString,
+    thirdString:thirdString,
+    fourthString:fourthString,
+    firstIcon:firstIcon,
+    graphType: graphType);
+}
+
+class _GraphContainer extends State<GraphContainer>
+{
+  final ReportData reportData;
+  static Map<int,List<Session>> data;
+  final String firstString;
+  final String secondString;
+  final String thirdString;
+  final String fourthString;
+  final IconData firstIcon;
+  final int graphType;
+  final FocusNode _focusNode = FocusNode();
+
+  _GraphContainer(
       {
         this.reportData,
         this.firstString,
@@ -47,6 +80,15 @@ class GraphContainer extends StatelessWidget
         data[day].add(j);
       }
     }
+  }
+
+  @override
+  void initState()
+  {
+    super.initState();
+    _focusNode.addListener(() {
+      print("Has focus: ${_focusNode.hasFocus}");
+    });
   }
 
   @override
@@ -140,6 +182,12 @@ class GraphContainer extends StatelessWidget
           ),
         )
     );
+  }
+  @override
+  void dispose()
+  {
+    _focusNode.dispose();
+    super.dispose();
   }
 
 }
@@ -239,7 +287,7 @@ class IconGraph extends StatelessWidget
 
 class BarGraph extends StatelessWidget
 {
-  Map<int,List<Session>> data;
+  final Map<int,List<Session>> data;
   BarGraph({this.data});
   @override
   Widget build(BuildContext context) {
@@ -309,18 +357,13 @@ class GroupedBarChart extends StatelessWidget {
     List<String> days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     List<BrushTime> x = new List<BrushTime>();
     var order = data.keys;
-    print(order);
-    print(sessionNo);
-    print(data);
     for(var i in order)
       {
-        print(i);
         if(data[i].length>sessionNo)
           x.add(BrushTime(days[i], data[i][sessionNo].data.toInt()));
         else
           x.add(BrushTime(days[i], 0));
       }
-    print(x);
 
 
     return x;
@@ -340,22 +383,12 @@ class GroupedBarChart extends StatelessWidget {
       if(data[i].length>max)
         max = data[i].length;
     }
-    print(max);
 
     for(var i=0;i<max;i++)
     {
-      print("Reches here atleast");
-      print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
       series.add(getSeries(data,i));//0,1
     }
-    print("Reches here atleast");
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5");
-
     int cnt=0;
-
-    print("The series is getting created");
-
-    print(series);
 
     for(var i in series)
     {
@@ -372,7 +405,6 @@ class GroupedBarChart extends StatelessWidget {
       );
       cnt++;
     }
-  print(graphData);
   return graphData;
 
 
