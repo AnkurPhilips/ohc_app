@@ -4,6 +4,7 @@ import 'package:ohc_app/get_data.dart';
 
 class GraphContainer extends StatefulWidget
 {
+  final GlobalKey key = new GlobalKey();
   final ReportData reportData;
   static Map<int,List<Session>> data;
   final String firstString;
@@ -31,7 +32,8 @@ class GraphContainer extends StatefulWidget
     thirdString:thirdString,
     fourthString:fourthString,
     firstIcon:firstIcon,
-    graphType: graphType);
+    graphType: graphType,
+  );
 }
 
 class _GraphContainer extends State<GraphContainer>
@@ -44,7 +46,6 @@ class _GraphContainer extends State<GraphContainer>
   final String fourthString;
   final IconData firstIcon;
   final int graphType;
-  final FocusNode _focusNode = FocusNode();
 
   _GraphContainer(
       {
@@ -54,7 +55,7 @@ class _GraphContainer extends State<GraphContainer>
         this.thirdString,
         this.fourthString,
         this.firstIcon,
-        this.graphType
+        this.graphType,
       }
   );
 
@@ -82,14 +83,6 @@ class _GraphContainer extends State<GraphContainer>
     }
   }
 
-  @override
-  void initState()
-  {
-    super.initState();
-    _focusNode.addListener(() {
-      print("Has focus: ${_focusNode.hasFocus}");
-    });
-  }
 
   @override
   Widget build(BuildContext context)
@@ -182,12 +175,6 @@ class _GraphContainer extends State<GraphContainer>
           ),
         )
     );
-  }
-  @override
-  void dispose()
-  {
-    _focusNode.dispose();
-    super.dispose();
   }
 
 }

@@ -21,32 +21,42 @@ class _MyApp extends State<MyApp>
   static JsonDataParser parser ;
   static ListView listObject ;
   ScrollController _controller;
-  static List<GlobalKey> keyList;
+  static Map<int,GlobalKey> keys;
+  static double minScroll=40;
+  bool custom = false;
 
-  String message="";
 
   _MyApp()
   {
     dataParsing();
   }
 
-  void _onStartScroll(ScrollMetrics metrics) {
-    setState(() {
-      message = "Scroll Start";
-    });
-  }
-  void _onUpdateScroll(ScrollMetrics metrics) {
-    setState(() {
-      message = "Scroll Update";
-    });
-  }
-  void _onEndScroll(ScrollMetrics metrics) {
-    setState(() {
-      message = "Scroll End";
+  void scroll()
+  {
+    //print("Start");
+    for(var i in keys.values)
+    {
+      if(i.currentContext==null)
+        continue;
 
-    });
-    debugPrint("HH${_controller.position}");
+      RenderBox renderBox = i.currentContext.findRenderObject();
+      //print(renderBox.localToGlobal(Offset.zero).dy);
+      //print(minScroll);
+      print(renderBox.localToGlobal(Offset.zero).dy>minScroll);
+      if(renderBox.localToGlobal(Offset.zero).dy>=minScroll && renderBox.localToGlobal(Offset.zero).dy<renderBox.size.height) {
+        setState(() {
+//          _controller.animateTo(_controller.offset + renderBox
+//              .localToGlobal(Offset.zero).dy - minScroll,duration: Duration(milliseconds: 200),curve: Curves.linear);
+          _controller.jumpTo(_controller.offset + renderBox.localToGlobal(Offset.zero).dy - minScroll);
+        });
+
+        break;
+      }
+    }
+    //print('stop');
   }
+
+
 
   static void dataParsing()
   {
@@ -87,71 +97,78 @@ class _MyApp extends State<MyApp>
   @override
   Widget build(BuildContext context)
   {
-    keyList = new List<GlobalKey>();
+    keys = new Map<int,GlobalKey>();
     _controller = new ScrollController();
+    List<Widget> list = <Widget>[
+      first(weekString),
+
+      second(iconSize),
+
+      third(),
+
+      fourth(context),
+
+      Dash(dashColor: Colors.green.shade300,),
+
+      GraphContainer(
+
+        reportData:report.data.frequency,
+        firstString: 'Brushing daily' ,
+        secondString:'average',
+        thirdString:report.data.frequency.average.toString(),
+        fourthString:'/day',
+        firstIcon:Icons.style,
+        graphType: 0,),
+      Dash(
+        length: 300,
+        dashColor: Colors.grey.shade300,
+      ),
+
+      GraphContainer(reportData:report.data.duration,
+        firstString: 'Brushing time' ,
+        secondString:'average',
+        thirdString:report.data.duration.average.toString(),
+        fourthString:'',
+        firstIcon:Icons.style,
+        graphType: 1,),
+
+      Dash(length: 300,dashColor: Colors.grey.shade300,),
+
+      GraphContainer(reportData:report.data.pressure,
+        firstString: 'Pressure applied' ,
+        secondString:'',
+        thirdString:'too hard',
+        fourthString:'',
+        firstIcon:Icons.style,
+        graphType: 0,),
+
+      Dash(length: 300,dashColor: Colors.grey.shade300,),
+
+      GraphContainer(reportData:report.data.scrubbing,
+        firstString: 'Scrubbing applied' ,
+        secondString:'',
+        thirdString:'good',
+        fourthString:'',
+        firstIcon:Icons.style,
+        graphType: 0,),
+
+      Dash(length: 300,dashColor: Colors.grey.shade300,),
+
+      SizedBox(height: 10),
+
+      ninth(),
+    ];
     listObject = new ListView(
         controller: _controller,
         padding: const EdgeInsets.all(10),
-        children:<Widget>[
-          first(message),
-
-          second(iconSize),
-
-          third(),
-
-          fourth(context),
-
-          Dash(dashColor: Colors.green.shade300,),
-
-          GraphContainer(
-
-            reportData:report.data.frequency,
-            firstString: 'Brushing daily' ,
-            secondString:'average',
-            thirdString:report.data.frequency.average.toString(),
-            fourthString:'/day',
-            firstIcon:Icons.style,
-            graphType: 0,),
-          Dash(
-            length: 300,
-            dashColor: Colors.grey.shade300,
-          ),
-
-          GraphContainer(reportData:report.data.duration,
-            firstString: 'Brushing time' ,
-            secondString:'average',
-            thirdString:report.data.duration.average.toString(),
-            fourthString:'',
-            firstIcon:Icons.style,
-            graphType: 1,),
-
-          Dash(length: 300,dashColor: Colors.grey.shade300,),
-
-          GraphContainer(reportData:report.data.pressure,
-            firstString: 'Pressure applied' ,
-            secondString:'',
-            thirdString:'too hard',
-            fourthString:'',
-            firstIcon:Icons.style,
-            graphType: 0,),
-
-          Dash(length: 300,dashColor: Colors.grey.shade300,),
-
-          GraphContainer(reportData:report.data.scrubbing,
-            firstString: 'Scrubbing applied' ,
-            secondString:'',
-            thirdString:'good',
-            fourthString:'',
-            firstIcon:Icons.style,
-            graphType: 0,),
-
-          Dash(length: 300,dashColor: Colors.grey.shade300,),
-
-          SizedBox(height: 10),
-
-          ninth(),
-        ]
+        children: list
     );
+    keys[0]=list[5].key;
+    keys[1] = list[7].key;
+    keys[2]=list[9].key;
+    keys[3] = list[11].key;
+
+    print(keys);
     return(Scaffold(
       appBar: AppBar(
         title: Center(
@@ -165,13 +182,22 @@ class _MyApp extends State<MyApp>
                 child: NotificationListener<ScrollNotification>(
                   // ignore: missing_return
                   onNotification: (scrollNotification) {
-                    if (scrollNotification is ScrollStartNotification) {
-                      _onStartScroll(scrollNotification.metrics);
-                    } else if (scrollNotification is ScrollUpdateNotification) {
-                      _onUpdateScroll(scrollNotification.metrics);
-                    } else if (scrollNotification is ScrollEndNotification) {
-                      _onEndScroll(scrollNotification.metrics);
+                    if(custom==false && scrollNotification is ScrollEndNotification){
+                      if(custom==false)
+                        setState(() {
+                          custom = true;
+                        });
+
+                      scroll();
+                      if(custom==true)
+                        setState(() {
+                          custom = false;
+                        });
                     }
+                    if(custom==true) {
+                      return;
+                    }
+                    return;
                   },
                   child: listObject,
                 ),
