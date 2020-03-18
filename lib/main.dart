@@ -24,6 +24,10 @@ class _MyApp extends State<MyApp>
   static Map<int,GlobalKey> keys;
   static double minScroll=40;
   bool custom = false;
+  GlobalKey aniKey;
+  double offset=-1;
+  Widget secondNavBar;
+  double textSize=12;
 
 
   _MyApp()
@@ -31,11 +35,24 @@ class _MyApp extends State<MyApp>
     dataParsing();
   }
 
+  void iconScroll()
+  {
+    RenderBox aniRenderBox = aniKey.currentContext.findRenderObject();
+    if(aniRenderBox.localToGlobal(Offset.zero).dy>=minScroll){
+      setState(() {
+        iconSize = (aniRenderBox.localToGlobal(Offset.zero).dy-minScroll)/(offset-minScroll)*80;
+        textSize = (aniRenderBox.localToGlobal(Offset.zero).dy-minScroll)/(offset-minScroll)*12;
+        secondNavBar = SecondWidget(iconSize: iconSize,textSize: textSize,);
+      });
+    }
+  }
+
   void scroll()
   {
 
     //print("Start");
     if(_controller.offset==_controller.position.maxScrollExtent)return;
+
     for(var i in keys.values)
     {
       if(i.currentContext==null)
@@ -99,6 +116,7 @@ class _MyApp extends State<MyApp>
   @override
   Widget build(BuildContext context)
   {
+    secondNavBar = SecondWidget(iconSize: iconSize,textSize: textSize,);
     minScroll = MediaQuery.of(context).padding.top+50;
     keys = new Map<int,GlobalKey>();
     double a = MediaQuery.of(context).size.width-20;//-MediaQuery.of(context).padding.collapsedSize.width;
@@ -106,7 +124,7 @@ class _MyApp extends State<MyApp>
     List<Widget> list = <Widget>[
       first(weekString),
 
-      second(iconSize),
+      secondNavBar,
 
       third(),
 
@@ -197,6 +215,7 @@ class _MyApp extends State<MyApp>
     keys[1] = list[7].key;
     keys[2]=list[9].key;
 //    keys[3] = list[11].key;
+    aniKey = list[1].key;
 
     print(keys);
     return(Scaffold(
@@ -215,6 +234,12 @@ class _MyApp extends State<MyApp>
                   child: NotificationListener<ScrollNotification>(
                     // ignore: missing_return
                     onNotification: (scrollNotification) {
+                      if(scrollNotification is ScrollStartNotification && offset==-1){
+                        RenderBox secondaryNotificationBar = aniKey.currentContext.findRenderObject();
+                        offset = secondaryNotificationBar.localToGlobal(Offset.zero).dy;
+                      }
+                      if(scrollNotification is ScrollUpdateNotification)
+                        iconScroll();
                       if(custom==false && scrollNotification is ScrollEndNotification){
                         if(custom==false)
                           setState(() {

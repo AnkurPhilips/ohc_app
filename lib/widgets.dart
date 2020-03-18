@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 Widget customIcon(
-    IconData icon, double size,  String data)
+    IconData icon, double size,  String data, double textSize)
   {
     GlobalKey key = new GlobalKey();
     return(
@@ -9,7 +10,7 @@ Widget customIcon(
           key: key,
           children: <Widget>[
             Icon(icon, size: size, color: Colors.indigo, ),
-            Container(padding: const EdgeInsets.only(top: 5),child: Text(data, ))
+            Container(padding: const EdgeInsets.only(top: 5),child: Text(data, style: TextStyle(fontSize: textSize), ))
       ],
     )
     );
@@ -50,21 +51,44 @@ Widget customIcon(
     );
   }
 
-  Widget second(double iconSize) {
-  return Container(
-          padding: const EdgeInsets.only(top: 20, bottom: 20),
+  class SecondWidget extends StatelessWidget {
+    //(double iconSize) {
+    final double iconSize;
+    final double textSize;
+    final GlobalKey key = new GlobalKey();
+
+    SecondWidget({this.iconSize,this.textSize});
+
+    double calculatePadding()
+    {
+      RenderBox renderBox = key.currentContext.findRenderObject();
+      return((renderBox.size.width-4*iconSize)/8);
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Container(
+          padding: const EdgeInsets.only(top: 20, bottom: 20, ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              customIcon(Icons.looks_two, iconSize, 'Daily'),
-              customIcon(Icons.timelapse, iconSize, 'Time'),
-              customIcon(Icons.pool, iconSize, 'Pressure'),
-              customIcon(Icons.brush, iconSize, 'Scrubbing'),
-            ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    customIcon(Icons.looks_two, iconSize, 'Daily',textSize),
+                    customIcon(Icons.timelapse, iconSize, 'Time',textSize),
+                    customIcon(Icons.pool, iconSize, 'Pressure',textSize),
+                    customIcon(Icons.brush, iconSize, 'Scrubbing',textSize),
+                ],
+              )
           )
+      ]
+      )
       );
     }
+  }
 
       Widget third() {
       return Container(
@@ -118,153 +142,251 @@ class Second extends StatelessWidget{
 //      ),
     key: key,
       body: Container(
-          child:Column(crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(10),
+          child:Column(
+              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: 25),
                 Row(mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       IconButton(
+                        padding: EdgeInsets.only(top:MediaQuery.of(context).padding.top),
                           icon: Icon( Icons.close),
                           onPressed:(){ Navigator.pop(context);}
                       ),
                     ]
                 ),
                 Container(
-                  padding: EdgeInsets.only(top:10, left: 20),
+//                  padding: EdgeInsets.only(top:10, left: 20),
                   child: Text(
                     'Best way to brush',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 20,top:10,bottom: 20),
+//                  padding: EdgeInsets.only(left: 20,top:10,bottom: 20),
                   child: Text(
                     'To get the most out of your brushing, follow these simple rules',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                     ),
                   ),
                 ),
-                Dash(length: 450,dashColor: Colors.grey.shade300,),
-                Container(
-                  padding: EdgeInsets.only(top:10, left: 20),
-                  child: FlatButton.icon(
-                    shape: CircleBorder(),
-                    label: Text('Daily brushing average :',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                Dash(length: MediaQuery.of(context).size.width-20,dashColor: Colors.grey.shade300,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      child: Icon(
+                          Icons.looks_two
                       ),
                     ),
-                    icon: Icon(Icons.looks_two),
-                    onPressed: (){},
-                  ),
+                    Text('Daily brushing average :',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+
+                  ]
                 ),
-                Container( padding: EdgeInsets.only(left: 60,right: 10,bottom: 20),
+
+                Container(
+//                  padding: EdgeInsets.only(left: 60,right: 10,bottom: 20),
                   child: Text(
                     'Brushing at least 2X per day is the best way to remove unwanted plaque and keep your teeth clean and white',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                     ),
                   ),
                 ),
-                Dash(length: 450,dashColor: Colors.grey.shade300,),
-                Container(
-                  padding: EdgeInsets.only(top:10, left: 20),
-                  child: FlatButton.icon(
-                    shape: CircleBorder(),
+                Dash(length: MediaQuery.of(context).size.width-20,dashColor: Colors.grey.shade300,),
 
-                    label: Text('Brushing time average :',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        child: Icon(
+                            Icons.timelapse
+                        ),
                       ),
-                    ),
-                    icon: Icon(Icons.timelapse),
-                    onPressed: (){},
-                  ),
+                      Text('Brushing time average :',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+
+                    ]
                 ),
-                Container( padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+
+//                Container(
+////                  padding: EdgeInsets.only(top:10, left: 20),
+//                  child: FlatButton.icon(
+//                    shape: CircleBorder(),
+//
+//                    label: Text('Brushing time average :',
+//                      style: TextStyle(
+//                        fontWeight: FontWeight.bold,
+//                        fontSize: 12,
+//                      ),
+//                    ),
+//                    icon: Icon(Icons.timelapse),
+//                    onPressed: (){},
+//                  ),
+//                ),
+                Container(
+//                  padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
                   child: Text(
                     'Brush your teeth for at least 2 minutes per brushing to ensure that every surface tooth has been thoroughly cleaned',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                     ),
                   ),
                 ),
-                Dash(length: 450,dashColor: Colors.grey.shade300,),
-                Container(
-                  padding: EdgeInsets.only(top:20,left: 20),
-                  child: FlatButton.icon(
-                    shape: CircleBorder(),
-                    label: Text('Pressure applied :',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                Dash(length: MediaQuery.of(context).size.width-20,dashColor: Colors.grey.shade300,),
+
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        child: Icon(
+                            Icons.brush
+                        ),
                       ),
-                    ),
-                    icon: Icon(Icons.brush),
-                    onPressed: (){},
-                  ),
+                      Text('Pressure applied :',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+
+                    ]
                 ),
-                Container( padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+
+//                Container(
+////                  padding: EdgeInsets.only(top:20,left: 20),
+//                  child: FlatButton.icon(
+//                    shape: CircleBorder(),
+//                    label: Text('Pressure applied :',
+//                      style: TextStyle(
+//                        fontWeight: FontWeight.bold,
+//                        fontSize: 12,
+//                      ),
+//                    ),
+//                    icon: Icon(Icons.brush),
+//                    onPressed: (){},
+//                  ),
+//                ),
+                Container(
+//                  padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
                   child: Text(
                     'Very little pressure is needed to brush effectively White brushing,try holding the toothbrush with just your fingertips to maintain a light touch. Your Sonicare will do the work for you',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                     ),
                   ),
                 ),
-                Dash(length: 450,dashColor: Colors.grey.shade300,),
-                Container(
-                  padding: EdgeInsets.only(top:10, left: 20),
-                  child: FlatButton.icon(
-                    shape: CircleBorder(),
-                    label: Text('Scrubbing applied :',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                Dash(length: MediaQuery.of(context).size.width-20,dashColor: Colors.grey.shade300,),
+
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        child: Icon(
+                            Icons.scatter_plot
+                        ),
                       ),
-                    ),
-                    icon: Icon(Icons.scatter_plot),
-                    onPressed: (){},
-                  ),
+                      Text('Scrubbing applied :',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+
+                    ]
                 ),
-                Container( padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+
+//                Container(
+////                  padding: EdgeInsets.only(top:10, left: 20),
+//                  child: FlatButton.icon(
+//                    shape: CircleBorder(),
+//                    label: Text('Scrubbing applied :',
+//                      style: TextStyle(
+//                        fontWeight: FontWeight.bold,
+//                        fontSize: 12,
+//                      ),
+//                    ),
+//                    icon: Icon(Icons.scatter_plot),
+//                    onPressed: (){},
+//                  ),
+//                ),
+                Container(
+//                  padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
                   child: Text(
                     'Brush your teeth with a small back and forth motion so the bristles reach between the teeth. Continue this motion guiding your brush from tooth to tooth. Avoid scrubbing motoion as it might hurt your gums',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                     ),
                   ),
                 ),
-                Dash(length: 450,dashColor: Colors.grey.shade300,),
-                Container(color: Colors.grey.shade300,
-                  padding: EdgeInsets.only(top:10, left: 20),
-                  child: FlatButton.icon(
-                    shape: CircleBorder(),
+                Dash(length: MediaQuery.of(context).size.width-20,dashColor: Colors.grey.shade300,),
 
-                    label: Text('Please note :                                                                            ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    ),
-                    icon: Icon(Icons.warning),
-                    onPressed: (){},
+                Container(
+                    decoration: BoxDecoration(color: Colors.grey.shade300),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          child: Icon(
+                              Icons.warning
+                          ),
+                        ),
+                        Text('Please note :',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+
+                      ]
                   ),
                 ),
-                Container( color: Colors.grey.shade300,
-                  padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
+
+//                Container(
+//                  //color: Colors.grey.shade300,
+////                  padding: EdgeInsets.only(top:10, left: 20),
+//                  child: FlatButton.icon(
+//                    shape: CircleBorder(),
+//
+//                    label: Text('Please note :',
+//                      style: TextStyle(
+//                        fontWeight: FontWeight.bold,
+//                        fontSize: 12,
+//                      ),
+//                    ),
+//                    icon: Icon(Icons.warning),
+//                    onPressed: (){},
+//                  ),
+//                ),
+                Container(
+                  color: Colors.grey.shade300,
+//                  padding: EdgeInsets.only(left: 60,right: 20,bottom: 40,),
                   child: Text(
                     'For accurate personalised guidance, be sure to keep your toothbrush connected to the App',
+                    softWrap: true,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                     ),
                   ),
                 ),
