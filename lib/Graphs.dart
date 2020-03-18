@@ -89,7 +89,7 @@ class _GraphContainer extends State<GraphContainer>
   {
     getData();
     return(
-        Container( padding: EdgeInsets.only(top: 20,bottom: 20),
+        Container( //padding: EdgeInsets.only(top: 20,bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

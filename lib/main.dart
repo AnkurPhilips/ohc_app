@@ -33,7 +33,9 @@ class _MyApp extends State<MyApp>
 
   void scroll()
   {
+
     //print("Start");
+    if(_controller.offset==_controller.position.maxScrollExtent)return;
     for(var i in keys.values)
     {
       if(i.currentContext==null)
@@ -43,12 +45,12 @@ class _MyApp extends State<MyApp>
       //print(renderBox.localToGlobal(Offset.zero).dy);
       //print(minScroll);
       print(renderBox.localToGlobal(Offset.zero).dy>minScroll);
-      if(renderBox.localToGlobal(Offset.zero).dy>=minScroll && renderBox.localToGlobal(Offset.zero).dy<renderBox.size.height) {
-        setState(() {
+      if((renderBox.localToGlobal(Offset.zero).dy<=minScroll) && (minScroll-renderBox.localToGlobal(Offset.zero).dy>=0.2*renderBox.size.height) &&(minScroll-renderBox.localToGlobal(Offset.zero).dy)<=0.4*renderBox.size.height) {
+          setState(() {
 //          _controller.animateTo(_controller.offset + renderBox
 //              .localToGlobal(Offset.zero).dy - minScroll,duration: Duration(milliseconds: 200),curve: Curves.linear);
-          _controller.jumpTo(_controller.offset + renderBox.localToGlobal(Offset.zero).dy - minScroll);
-        });
+            _controller.jumpTo(_controller.offset + renderBox.localToGlobal(Offset.zero).dy - minScroll);
+          });
 
         break;
       }
@@ -97,7 +99,9 @@ class _MyApp extends State<MyApp>
   @override
   Widget build(BuildContext context)
   {
+    minScroll = MediaQuery.of(context).padding.top+50;
     keys = new Map<int,GlobalKey>();
+    double a = MediaQuery.of(context).size.width-20;//-MediaQuery.of(context).padding.collapsedSize.width;
     _controller = new ScrollController();
     List<Widget> list = <Widget>[
       first(weekString),
@@ -108,7 +112,13 @@ class _MyApp extends State<MyApp>
 
       fourth(context),
 
-      Dash(dashColor: Colors.green.shade300,),
+      Container(
+          padding: const EdgeInsets.only(bottom: 20),
+          child:Dash(
+            length: a,
+            dashColor: Colors.green.shade300,
+          )
+      ),
 
       GraphContainer(
 
@@ -119,9 +129,13 @@ class _MyApp extends State<MyApp>
         fourthString:'/day',
         firstIcon:Icons.style,
         graphType: 0,),
-      Dash(
-        length: 300,
-        dashColor: Colors.grey.shade300,
+
+      Container(
+          padding: const EdgeInsets.only(bottom: 20),
+          child:Dash(
+            length: a,
+            dashColor: Colors.green.shade300,
+          )
       ),
 
       GraphContainer(reportData:report.data.duration,
@@ -132,7 +146,13 @@ class _MyApp extends State<MyApp>
         firstIcon:Icons.style,
         graphType: 1,),
 
-      Dash(length: 300,dashColor: Colors.grey.shade300,),
+      Container(
+          padding: const EdgeInsets.only(bottom: 20),
+          child:Dash(
+            length: a,
+            dashColor: Colors.green.shade300,
+          )
+      ),
 
       GraphContainer(reportData:report.data.pressure,
         firstString: 'Pressure applied' ,
@@ -142,7 +162,13 @@ class _MyApp extends State<MyApp>
         firstIcon:Icons.style,
         graphType: 0,),
 
-      Dash(length: 300,dashColor: Colors.grey.shade300,),
+      Container(
+          padding: const EdgeInsets.only(bottom: 20),
+          child:Dash(
+            length: a,
+            dashColor: Colors.green.shade300,
+          )
+      ),
 
       GraphContainer(reportData:report.data.scrubbing,
         firstString: 'Scrubbing applied' ,
@@ -152,9 +178,13 @@ class _MyApp extends State<MyApp>
         firstIcon:Icons.style,
         graphType: 0,),
 
-      Dash(length: 300,dashColor: Colors.grey.shade300,),
-
-      SizedBox(height: 10),
+      Container(
+          padding: const EdgeInsets.only(bottom: 20),
+          child:Dash(
+            length: a,
+            dashColor: Colors.green.shade300,
+          )
+      ),
 
       ninth(),
     ];
@@ -166,44 +196,47 @@ class _MyApp extends State<MyApp>
     keys[0]=list[5].key;
     keys[1] = list[7].key;
     keys[2]=list[9].key;
-    keys[3] = list[11].key;
+//    keys[3] = list[11].key;
 
     print(keys);
     return(Scaffold(
-      appBar: AppBar(
-        title: Center(
-            child:Text(
-                'Progress')),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBar(
+          title: Center(
+              child:Text(
+                  'Progress')),
+        )
       ),
-      body:
-          Column(
-            children: <Widget>[
-              Expanded(
-                child: NotificationListener<ScrollNotification>(
-                  // ignore: missing_return
-                  onNotification: (scrollNotification) {
-                    if(custom==false && scrollNotification is ScrollEndNotification){
-                      if(custom==false)
-                        setState(() {
-                          custom = true;
-                        });
+        body:
+            Column(
+              children: <Widget>[
+                Expanded(
+                  child: NotificationListener<ScrollNotification>(
+                    // ignore: missing_return
+                    onNotification: (scrollNotification) {
+                      if(custom==false && scrollNotification is ScrollEndNotification){
+                        if(custom==false)
+                          setState(() {
+                            custom = true;
+                          });
 
-                      scroll();
-                      if(custom==true)
-                        setState(() {
-                          custom = false;
-                        });
-                    }
-                    if(custom==true) {
+                        scroll();
+                        if(custom==true)
+                          setState(() {
+                            custom = false;
+                          });
+                      }
+                      if(custom==true) {
+                        return;
+                      }
                       return;
-                    }
-                    return;
-                  },
-                  child: listObject,
+                    },
+                    child: listObject,
+                  ),
                 ),
-              ),
-            ]
-          )
+              ]
+            )
     ));
   }
 }
