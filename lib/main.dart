@@ -37,10 +37,11 @@ class _MyApp extends State<MyApp>
 
   void iconScroll()
   {
+    if(aniKey.currentContext==null)return;
     RenderBox aniRenderBox = aniKey.currentContext.findRenderObject();
     if(aniRenderBox.localToGlobal(Offset.zero).dy>=minScroll){
       setState(() {
-        iconSize = (aniRenderBox.localToGlobal(Offset.zero).dy-minScroll)/(offset-minScroll)*80;
+        iconSize = 40+(aniRenderBox.localToGlobal(Offset.zero).dy-minScroll)/(offset-minScroll)*40;
         textSize = (aniRenderBox.localToGlobal(Offset.zero).dy-minScroll)/(offset-minScroll)*12;
         secondNavBar = SecondWidget(iconSize: iconSize,textSize: textSize,);
       });
@@ -238,8 +239,19 @@ class _MyApp extends State<MyApp>
                         RenderBox secondaryNotificationBar = aniKey.currentContext.findRenderObject();
                         offset = secondaryNotificationBar.localToGlobal(Offset.zero).dy;
                       }
-                      if(scrollNotification is ScrollUpdateNotification)
+
+                      if(custom==false && scrollNotification is ScrollUpdateNotification){
+                        setState(() {
+                          custom=true;
+                        });
+
                         iconScroll();
+
+                        setState(() {
+                          custom = false;
+                        });
+                      }
+
                       if(custom==false && scrollNotification is ScrollEndNotification){
                         if(custom==false)
                           setState(() {

@@ -77,6 +77,7 @@ Widget customIcon(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    Text('19 Apr - 26 Apr',style: TextStyle(fontSize: 12-textSize,fontWeight: FontWeight.bold),),
                     customIcon(Icons.looks_two, iconSize, 'Daily',textSize),
                     customIcon(Icons.timelapse, iconSize, 'Time',textSize),
                     customIcon(Icons.pool, iconSize, 'Pressure',textSize),
